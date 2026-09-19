@@ -22,7 +22,14 @@ async function request(endpoint, options = {}) {
     credentials: 'include', // Mandates HttpOnly cookie transmission
   };
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, config);
+  let response;
+  try {
+    response = await fetch(`${BASE_URL}${endpoint}`, config);
+  } catch (err) {
+    throw new Error(
+      'Unable to connect to the backend server. If using Render free tier, please wait 30–50 seconds while the backend server wakes up and try again.'
+    );
+  }
 
   let data;
   const contentType = response.headers.get('content-type');
