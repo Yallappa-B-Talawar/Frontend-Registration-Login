@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://backend-registration-login.onrender.com/api/:path*"
+      "destination": "https://backend-registration-loginn.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
