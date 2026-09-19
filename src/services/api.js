@@ -65,10 +65,10 @@ export const api = {
 
   /**
    * Authenticate user & receive HttpOnly cookie
-   * POST /api/login/
+   * POST /api/login
    */
   login: (credentials) => {
-    return request('/api/login/', {
+    return request('/api/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
