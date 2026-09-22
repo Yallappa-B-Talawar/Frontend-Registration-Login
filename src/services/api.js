@@ -40,9 +40,26 @@ async function request(endpoint, options = {}) {
   }
 
   if (!response.ok) {
-    const error = new Error(
-      (data && data.message) || (data && data.error) || response.statusText || 'API Request Failed'
-    );
+    let msg = 'API Request Failed';
+    if (data) {
+      if (typeof data === 'string' && data.trim()) {
+        msg = data;
+      } else if (typeof data.message === 'string' && data.message.trim()) {
+        msg = data.message;
+      } else if (typeof data.error === 'string' && data.error.trim()) {
+        msg = data.error;
+      } else if (data.message && typeof data.message === 'object' && typeof data.message.message === 'string') {
+        msg = data.message.message;
+      } else if (data.error && typeof data.error === 'object' && typeof data.error.message === 'string') {
+        msg = data.error.message;
+      } else {
+        msg = response.statusText || `Request failed with status ${response.status}`;
+      }
+    } else if (response.statusText) {
+      msg = response.statusText;
+    }
+
+    const error = new Error(msg);
     error.status = response.status;
     error.data = data;
     throw error;
